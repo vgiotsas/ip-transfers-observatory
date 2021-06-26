@@ -41,7 +41,7 @@ def get_user_input():
     parser.add_argument('-m', '--measurements',
                         type=lambda x: is_valid_file(parser, x),
                         required=True,
-                        help="The file that contains the filenames of the  relationships files")
+                        help="The file that contains the filenames of the measurement campaigns")
     parser.add_argument('-s', '--study',
                         type=str,
                         required=True,
@@ -62,7 +62,7 @@ skip_dates = []
 # e.g. because a previous downloading of files was stopped due to the API's download threshold
 # E.g. 
 # first_file = "2020-09-19-1600529543-https_get_2083.json.gz"
-first_file = "2020-08-10-1597056310-https_get_8181.json.gz"
+first_file = ""
 # The file after which download will finish.
 # This is useful when we don't want to download all the files but only a certain range of files
 # E.g.
@@ -94,7 +94,7 @@ with open("sonar-{}.json".format(args.study)) as fin:
             if "url" in resp:
                 download_url = resp["url"]
                 print(f"Downloading {sonar_file}")
-                get_resp = requests.get(download_url, stream = True)
+                get_resp = requests.get(download_url, stream=True)
                 bin_file = open(sonar_file,"wb")
                 for chunk in get_resp.iter_content(chunk_size=1024):
                     bin_file.write(chunk)
